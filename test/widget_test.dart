@@ -123,6 +123,34 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('Barangay Admin dashboard and response actions work',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const MaterialApp(home: BarangayAdminShell()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Act now'));
+    await tester.pumpAndSettle();
+    expect(find.text('Case details'), findsOneWidget);
+    expect(find.text('Difficulty breathing'), findsOneWidget);
+
+    await tester.ensureVisible(find.text('SOS'));
+    await tester.tap(find.text('SOS'));
+    await tester.pumpAndSettle();
+    expect(find.text('RESPONSE REQUESTED'), findsOneWidget);
+    expect(
+      find.text('Demo: response request recorded for this case.'),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.byIcon(Icons.chevron_left));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Profile').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Log out'));
+    await tester.pumpAndSettle();
+    expect(find.byType(PortalScreen), findsOneWidget);
+  });
+
   testWidgets('SOS sending screen auto-confirms after the 3 second countdown',
       (WidgetTester tester) async {
     SosController.I.reset();

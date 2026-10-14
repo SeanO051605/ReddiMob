@@ -5,7 +5,7 @@ import '../../services/open_street_map_api.dart';
 import '../widgets/barangay_admin_widgets.dart';
 import '../widgets/open_street_map.dart';
 
-class BarangayAdminCaseDetail extends StatelessWidget {
+class BarangayAdminCaseDetail extends StatefulWidget {
   final BarangayAdminCase item;
   final VoidCallback onBack;
 
@@ -16,13 +16,33 @@ class BarangayAdminCaseDetail extends StatelessWidget {
   });
 
   @override
+  State<BarangayAdminCaseDetail> createState() =>
+      _BarangayAdminCaseDetailState();
+}
+
+class _BarangayAdminCaseDetailState extends State<BarangayAdminCaseDetail> {
+  bool _responseRequested = false;
+
+  void _requestResponse() {
+    if (_responseRequested) return;
+    setState(() => _responseRequested = true);
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        const SnackBar(
+          content: Text('Demo: response request recorded for this case.'),
+        ),
+      );
+  }
+
+  @override
   Widget build(BuildContext context) => ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
         children: [
           BarangayAdminHeader(
             'Case details',
             showBack: true,
-            onBack: onBack,
+            onBack: widget.onBack,
           ),
           Container(
             width: double.infinity,
@@ -43,13 +63,13 @@ class BarangayAdminCaseDetail extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            item.title,
+                            widget.item.title,
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w700),
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '${item.location} · ${item.time}',
+                            '${widget.item.location} · ${widget.item.time}',
                             style: const TextStyle(
                                 fontSize: 10, color: Colors.black54),
                           ),
@@ -62,16 +82,18 @@ class BarangayAdminCaseDetail extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: barangayAdminSeverityColor(item.severity)
-                              .withValues(alpha: 0.12),
+                          color:
+                              barangayAdminSeverityColor(widget.item.severity)
+                                  .withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          item.status,
+                          widget.item.status,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            color: barangayAdminSeverityColor(item.severity),
+                            color: barangayAdminSeverityColor(
+                                widget.item.severity),
                             fontSize: 9,
                             fontWeight: FontWeight.w700,
                           ),
@@ -121,8 +143,8 @@ class BarangayAdminCaseDetail extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(999)),
               ),
-              onPressed: () {},
-              child: const Text('SOS'),
+              onPressed: _responseRequested ? null : _requestResponse,
+              child: Text(_responseRequested ? 'RESPONSE REQUESTED' : 'SOS'),
             ),
           ),
         ],

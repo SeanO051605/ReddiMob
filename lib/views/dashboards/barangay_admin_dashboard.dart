@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../models/barangay_admin_case.dart';
 
 class BarangayAdminDashboard extends StatelessWidget {
-  const BarangayAdminDashboard({super.key});
+  final VoidCallback onActNow;
+
+  const BarangayAdminDashboard({super.key, required this.onActNow});
 
   Widget _statCard(String label, String value, String sub) => Container(
         constraints: const BoxConstraints(minHeight: 88),
@@ -77,35 +79,41 @@ class BarangayAdminDashboard extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 18),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          decoration: BoxDecoration(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Material(
             color: const Color(0xFFF3F3F3),
             borderRadius: BorderRadius.circular(12),
-          ),
-          child: const Row(
-            children: [
-              Icon(Icons.warning_amber_rounded,
-                  size: 14, color: barangayAdminRed),
-              SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  'A SOS not opened for 2:14:45',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 10, color: Colors.black87),
+            child: InkWell(
+              onTap: onActNow,
+              borderRadius: BorderRadius.circular(12),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                child: Row(
+                  children: [
+                    Icon(Icons.warning_amber_rounded,
+                        size: 14, color: barangayAdminRed),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'A SOS not opened for 2:14:45',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 10, color: Colors.black87),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'Act now',
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: barangayAdminRed,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(width: 8),
-              Text(
-                'Act now',
-                style: TextStyle(
-                    fontSize: 10,
-                    color: barangayAdminRed,
-                    fontWeight: FontWeight.w700),
-              ),
-            ],
+            ),
           ),
         ),
         const SizedBox(height: 18),

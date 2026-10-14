@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
 
+import '../../core/theme.dart';
 import '../../models/barangay_admin_case.dart';
 
 class BarangayAdminProfile extends StatelessWidget {
-  const BarangayAdminProfile({super.key});
+  final VoidCallback onLogout;
+
+  const BarangayAdminProfile({super.key, required this.onLogout});
 
   @override
-  Widget build(BuildContext context) => const Center(
+  Widget build(BuildContext context) => Center(
         child: Padding(
-          padding: EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.account_circle, size: 54, color: barangayAdminBrown),
-              SizedBox(height: 12),
-              Text('Barangay Admin',
+              const Icon(Icons.account_circle,
+                  size: 54, color: barangayAdminBrown),
+              const SizedBox(height: 12),
+              const Text('Barangay Admin',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-              SizedBox(height: 8),
-              Text('Admin profile coming soon',
+              const SizedBox(height: 8),
+              const Text('Admin profile coming soon',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.black54)),
+              const SizedBox(height: 20),
+              FilledButton(
+                style: FilledButton.styleFrom(backgroundColor: kSos),
+                onPressed: onLogout,
+                child: const Text('Log out'),
+              ),
             ],
           ),
         ),
