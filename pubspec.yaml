@@ -1,0 +1,22 @@
+name: reddiph
+description: Reddiph Emergency Coordination Portal
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  latlong2: ^0.10.1
+  webview_flutter: ^4.14.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  webview_flutter_platform_interface: ^2.15.1
+
+flutter:
+  uses-material-design: true
